@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap');
+@font-face {
+  font-family: 'Kapakana';
+  src: url('/fonts/Kapakana.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,4 +39,14 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* For the title using Kapakana font */
+.title {
+    font-family: 'Kapakana', sans-serif;
+}
+
+/* For the subtitle using Philosopher font */
+.subtitle {
+    font-family: 'Philosopher', serif;
 }
