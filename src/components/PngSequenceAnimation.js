@@ -28,16 +28,16 @@ const PngSequenceAnimation = ({
     return `${srcPrefix}${frameNumber}.png`;
   };
 
-  // Handle mouse movement with throttling for performance
+  // Handle mouse movement with throttling for performance - attach to window instead of container
   useEffect(() => {
     let ticking = false;
     
     const handleMouseMove = (e) => {
-      if (!ticking && containerRef.current) {
+      if (!ticking) {
         requestAnimationFrame(() => {
-          const rect = containerRef.current.getBoundingClientRect();
-          const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
-          const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2; // -1 to 1
+          // Use window dimensions instead of container
+          const x = ((e.clientX / window.innerWidth) - 0.5) * 2; // -1 to 1
+          const y = ((e.clientY / window.innerHeight) - 0.5) * 2; // -1 to 1
           setMousePosition({ x, y });
           ticking = false;
         });
@@ -45,22 +45,18 @@ const PngSequenceAnimation = ({
       }
     };
 
-    // Reset position when mouse leaves
+    // Reset position when mouse leaves window
     const handleMouseLeave = () => {
       setMousePosition({ x: 0, y: 0 });
     };
 
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-      container.addEventListener('mouseleave', handleMouseLeave);
-    }
+    // Attach to window instead of container
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      if (container) {
-        container.removeEventListener('mousemove', handleMouseMove);
-        container.removeEventListener('mouseleave', handleMouseLeave);
-      }
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
@@ -92,7 +88,7 @@ const PngSequenceAnimation = ({
   return (
     <div 
       ref={containerRef}
-      className={`fixed inset-0 w-full h-full ${className}`} 
+      className={`fixed inset-0 w-full h-full pointer-events-none ${className}`} 
       style={{ perspective: '1000px' }}
     >
       <div 
@@ -112,7 +108,7 @@ const PngSequenceAnimation = ({
           alt={`${id} animation frame ${currentFrame}`}
           className="w-full h-full object-cover"
           style={{ 
-            zIndex: -1,
+            zIndex: 10,
             backfaceVisibility: 'hidden'
           }}
         />

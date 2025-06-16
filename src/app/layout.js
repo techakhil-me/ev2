@@ -13,9 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {/* <LenisProvider></LenisProvider> */}
-        {children}
+      <body className="antialiased">
+        <LenisProvider>{children}</LenisProvider>
+        {/* {children} */}
         <Footer />
       </body>
     </html>
