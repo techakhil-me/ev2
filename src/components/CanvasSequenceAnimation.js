@@ -129,6 +129,6 @@ const CanvasSequenceAnimation = ({
       />
     </div>
   );
-};
+};  
 
 export default CanvasSequenceAnimation;

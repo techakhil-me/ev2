@@ -26,14 +26,19 @@ export default function Home() {
   const translateX = useTransform(springX, [-0.5, 0.5], [-3, 3]);
   const translateY = useTransform(springY, [-0.5, 0.5], [-3, 3]);
 
-  // Images for the carousel
-  const carouselImages = [
-    "/emeralds/emerald-1.png",
-    "/emeralds/emerald-2.png",
-    "/emeralds/emerald-3.png",
-    "/emeralds/emerald-4.png",
-    "/emeralds/emerald-5.png"
-  ];
+  // Images and names for the carousel
+  const carouselData = [
+    { image: "/emeralds/emerald-1.png", name: "Emerald" },
+    { image: "/emeralds/emerald-2.png", name: "Cushion" },
+    { image: "/emeralds/emerald-3.png", name: "Heart" },
+    { image: "/emeralds/emerald-4.png", name: "Pear" },
+    { image: "/emeralds/emerald-5.png", name: "Round" },
+    { image: "/emeralds/emerald-6.png", name: "Trillion" },
+    { image: "/emeralds/emerald-7.png", name: "Asscher" }
+  ]
+
+  // Legacy support - keeping the old array for backward compatibility
+  const carouselImages = carouselData.map(item => item.image);
 
   // Emerald green color palette
   const emeraldColors = [
@@ -164,6 +169,22 @@ export default function Home() {
     })
   };
 
+  // Text slide variants for emerald names
+  const textSlideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 50 : -50,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      x: direction < 0 ? 50 : -50,
+      opacity: 0
+    })
+  };
+
   // Uniform animation settings
   const fadeInUp = {
     initial: { opacity: 0, y: 50 },
@@ -230,7 +251,7 @@ export default function Home() {
         {/* Canvas Animation - Apple-style with viewport height */}
           <CanvasSequenceAnimation 
             totalFrames={140} 
-            srcPrefix="/scene1c/scene1-"
+            srcPrefix="/scene1/scene1-"
             startTrigger={0}
             endTrigger={0.3}
             id="apple-style"
@@ -257,7 +278,7 @@ export default function Home() {
             autoPlay 
             loop 
             muted 
-            className={`w-full h-full object-cover ${currentSection >= 0 && currentSection < 2 ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover transition-opacity duration-700 ${currentSection >= 0 && currentSection < 2 ? 'opacity-100' : 'opacity-0'}`}
           >
             <source src="/herobg.mp4" type="video/mp4" />
           </video>
@@ -317,7 +338,7 @@ export default function Home() {
           </div>
         </section>
 
-      "{/* Section 2 */}
+      {/* Section 2 */}
             <section className="absolute top-[100vh] left-0 w-full h-[200vh] flex items-start justify-start text-white px-16">
             <div className="max-w-2xl sticky top-0 py-36">
               <motion.div
@@ -357,14 +378,14 @@ export default function Home() {
 
               {/* Section 5 - Carousel with Autoplay and Pause on Hover */}
         <section 
-          className={`absolute top-[700vh]  left-0 w-full h-screen flex items-center justify-center text-white overflow-hidden`}
+          className={`absolute top-[700vh]  z-[-1] left-0 w-full h-screen flex items-center justify-center text-white overflow-hidden`}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsCarouselHovered(true)}
         
         >
           {/* Subtle Floating Parallax Background Images */}
           <motion.div 
-            className={`fixed inset-0 z-[-1] overflow-hidden transition-all duration-300 ${currentSection >= 6  ? 'opacity-100' : 'opacity-0'}`}
+            className={`fixed inset-0 z-[-1] overflow-hidden transition-all duration-300 `}
             style={{
               rotateX,
               rotateY,
@@ -375,7 +396,7 @@ export default function Home() {
             <AnimatePresence mode="wait" custom={direction}>
               <motion.img
                 key={currentImageIndex}
-                src={carouselImages[currentImageIndex]}
+                src={carouselData[currentImageIndex].image}
                 alt={`Emerald ${currentImageIndex + 1}`}
                 className={`w-full h-full object-cover absolute inset-0 `}
                 custom={direction}
@@ -394,6 +415,29 @@ export default function Home() {
             </AnimatePresence>
           </motion.div>
 
+          {/* Emerald Name Display */}
+          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-30">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentImageIndex}
+                custom={direction}
+                variants={textSlideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut"
+                }}
+                className="text-center"
+              >
+                <h3 className="text-4xl md:text-5xl font-light text-white subtitle tracking-wider">
+                  {carouselData[currentImageIndex].name}
+                </h3>
+                <div className="w-16 h-px bg-white/60 mx-auto mt-4"></div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         
           {/* Subtle Floating Left Arrow with Parallax */}
           <motion.button

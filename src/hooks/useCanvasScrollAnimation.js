@@ -17,11 +17,33 @@ export const useCanvasScrollAnimation = (
   const contextRef = useRef(null);
   const imagesRef = useRef({});
 
-  // Calculate canvas dimensions based on viewport
+  // Calculate canvas dimensions based on viewport with mobile-first approach
   useEffect(() => {
     const updateCanvasDimensions = () => {
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
+      const isMobile = window.innerWidth <= 768;
+      
+      let viewportHeight, viewportWidth;
+      
+      if (isMobile) {
+        // Use large viewport height for mobile to avoid address bar issues
+        viewportHeight = window.innerHeight;
+        // Try to get the actual viewport height without address bar
+        if (CSS.supports('height', '100lvh')) {
+          const testElement = document.createElement('div');
+          testElement.style.height = '100lvh';
+          testElement.style.position = 'fixed';
+          testElement.style.top = '0';
+          testElement.style.visibility = 'hidden';
+          document.body.appendChild(testElement);
+          viewportHeight = testElement.offsetHeight;
+          document.body.removeChild(testElement);
+        }
+        viewportWidth = window.innerWidth;
+      } else {
+        viewportHeight = window.innerHeight;
+        viewportWidth = window.innerWidth;
+      }
+      
       const aspectRatio = 3840 / 2160; // 16:9 aspect ratio
       
       // Calculate dimensions based on both width and height constraints
@@ -37,7 +59,20 @@ export const useCanvasScrollAnimation = (
 
     updateCanvasDimensions();
     window.addEventListener('resize', updateCanvasDimensions);
-    return () => window.removeEventListener('resize', updateCanvasDimensions);
+    window.addEventListener('orientationchange', updateCanvasDimensions);
+    
+    // Additional listener for mobile viewport changes
+    const handleViewportChange = () => {
+      setTimeout(updateCanvasDimensions, 100);
+    };
+    
+    window.addEventListener('scroll', handleViewportChange, { passive: true });
+    
+    return () => {
+      window.removeEventListener('resize', updateCanvasDimensions);
+      window.removeEventListener('orientationchange', updateCanvasDimensions);
+      window.removeEventListener('scroll', handleViewportChange);
+    };
   }, [originalWidth, originalHeight]);
 
   // Preload all images
