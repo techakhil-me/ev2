@@ -10,6 +10,7 @@ export default function Home() {
   const [direction, setDirection] = useState(0); // 1 for next, -1 for prev
   const [particles, setParticles] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
 
   // Mouse parallax - more subtle
   const mouseX = useMotionValue(0);
@@ -118,6 +119,16 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Carousel autoplay
+  useEffect(() => {
+   const autoplayInterval = setInterval(() => {
+        setDirection(1);
+        setCurrentImageIndex((prev) => 
+          prev === carouselImages.length - 1 ? 0 : prev + 1
+        );
+      }, 8000);
+  }, [carouselImages.length]);
+
   // Carousel navigation functions
   const nextImage = () => {
     setDirection(1);
@@ -200,7 +211,7 @@ export default function Home() {
           top: mousePosition.y - 4,
         }}
         animate={{
-          scale: [1, 1.2, 1],
+          scale: [1, 1.2, 1], 
         }}
         transition={{
           scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
@@ -215,7 +226,7 @@ export default function Home() {
         {/* Canvas Animation - Apple-style with viewport height */}
           <CanvasSequenceAnimation 
             totalFrames={140} 
-            srcPrefix="/scene1/scene1-"
+            srcPrefix="/scene1c/scene1-"
             startTrigger={0}
             endTrigger={0.3}
             id="apple-style"
@@ -237,7 +248,7 @@ export default function Home() {
 
           {/* background image */}
 
-          {/* <div className="fixed inset-0 z-[-1]">
+          <div className="fixed inset-0 z-[-1]">
           <video 
             autoPlay 
             loop 
@@ -246,7 +257,7 @@ export default function Home() {
           >
             <source src="/herobg.mp4" type="video/mp4" />
           </video>
-        </div> */}
+        </div>
 
         <div className="fixed inset-0 z-[-1]">
           <img 
@@ -302,68 +313,54 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 2 */}
-        <section className="absolute top-[100vh] left-0 w-full h-[200vh] flex items-start justify-start text-white px-16">
-          <div className="max-w-2xl sticky top-0 py-36">
-            <motion.div
+      "{/* Section 2 */}
+            <section className="absolute top-[100vh] left-0 w-full h-[200vh] flex items-start justify-start text-white px-16">
+            <div className="max-w-2xl sticky top-0 py-36">
+              <motion.div
               {...fadeInUp}
               transition={{ ...fadeInUp.transition, delay: 0.2 }}
               className="space-y-6"
-            >
+              >
               <h2 className="text-5xl md:text-5xl font-light mb-8 subtitle">
-                Every Gem<br />
-                Tells a Story.
+            Every Gem<br />
+            Tells A Story.
               </h2>
-              <div className="space-y-4 text-base max-w-sm text-white/90 leading-relaxed subtitle">
-                <p>
-                  In the depths of South America's most sacred grounds, where Earth crafted its finest treasures over millions of years, we begin our journey of excellence.
-                </p>
-                <p>
-                  From the emerald-rich valleys of Colombia to Brazil's crystal-laden mountains, we seek nature's rarest masterpieces.
-                </p>
-                <p>
-                  At Embrant, we are more than custodians of beauty—we are the architects of legacy.
-                </p>
+              <div className="space-y-4 text-base font-bold max-w-sm text-white/90 leading-relaxed tracking-widest  subtitle">
+            <p>
+             In The Depths Of Earth's Most Sacred Grounds, Where Earth Crafted Its Finest Treasures Over Millions Of Years, We Begin Our Journey Of Excellence.</p>
               </div>
-            </motion.div>
-          </div>
-        </section>
+              </motion.div>
+            </div>
+            </section>
 
 
-        {/* Section 4 */}
-        <section className="absolute top-[300vh] left-0 w-full h-[400vh] flex items-start justify-start text-white px-16">
-          <div className="max-w-2xl sticky top-0 pt-36">
-            <motion.div
-              {...fadeInUp}
-              transition={{ ...fadeInUp.transition, delay: 0.6 }}
-            >
-              <h2 className="text-5xl font-light mb-8 subtitle">
-One gem. <br />
-Infinite hues.              </h2>
-              <div className="space-y-4 text-base max-w-sm text-white/90 leading-relaxed subtitle">
-                <p>
-                  We scrutinize each stone's clarity, watching as light dances through its pristine structure.
-                </p>
-                <p>
-                  In our private sanctuary, time moves differently. Each evaluation is a reverent ceremony where perfection is the only acceptable outcome.
-                </p>
-                <p>
-                  The depth of color, the whispers of geological rarity, the weight of historical significance—these are the qualities that define an Embrant gemstone.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+           { /* Section 4 */}
+              <section className="absolute top-[300vh] left-0 w-full h-[400vh] flex items-start justify-start text-white px-16">
+                <div className="max-w-2xl sticky top-0 pt-36 pb-56">
+                  <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.6 }}
+                  >
+                    <h2 className="text-5xl font-light mb-8 subtitle">
+            One Gem. <br />
+            Infinite Hues.              </h2>
+                    <div className="space-y-4 text-base font-bold tracking-widest max-w-sm text-white/90 leading-relaxed subtitle">
+                     <p>In Our Private Sanctuary, Time Moves Differently. Each Evaluation Is A Reverent Ceremony Where Perfection Is The Only Acceptable Outcome </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </section>
 
-        {/* Section 5 - Carousel with Subtle Floating Animation and Parallax */}
+              {/* Section 5 - Carousel with Autoplay and Pause on Hover */}
         <section 
-          className="absolute top-[700vh] left-0 w-full h-screen flex items-center justify-center text-white  overflow-hidden"
+          className={`absolute top-[700vh]  left-0 w-full h-screen flex items-center justify-center text-white overflow-hidden`}
           onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => setIsCarouselHovered(true)}
+        
         >
           {/* Subtle Floating Parallax Background Images */}
           <motion.div 
-            className="fixed inset-0 z-[-1] overflow-hidden"
+            className={`fixed inset-0 z-[-1] overflow-hidden ${currentSection >= 6  ? 'opacity-100' : 'opacity-0'}`}
             style={{
               rotateX,
               rotateY,
@@ -376,7 +373,7 @@ Infinite hues.              </h2>
                 key={currentImageIndex}
                 src={carouselImages[currentImageIndex]}
                 alt={`Emerald ${currentImageIndex + 1}`}
-                className={`w-full h-full object-cover absolute inset-0 ${currentSection >= 6  ? 'opacity-100' : 'opacity-0'}`}
+                className={`w-full h-full object-cover absolute inset-0 `}
                 custom={direction}
                 variants={slideVariants}
                 initial="enter"
@@ -386,13 +383,14 @@ Infinite hues.              </h2>
                 }}
                 exit="exit"
                 transition={{
-                  x: { duration: 0.6, ease: "easeInOut" },
-                  y: { duration: 6, repeat: Infinity, ease: "easeInOut" } // Slower floating
+                  x: { duration: 1, ease: "easeInOut" },
+                  y: { duration: 4, repeat: Infinity, ease: "easeInOut" } // Slower floating
                 }}
               />
             </AnimatePresence>
           </motion.div>
 
+        
           {/* Subtle Floating Left Arrow with Parallax */}
           <motion.button
             onClick={prevImage}
