@@ -113,6 +113,10 @@ export default function Home() {
       const windowHeight = window.innerHeight;
       const section = Math.floor(scrollTop / windowHeight);
       setCurrentSection(section);
+      if (section <= 7) {
+       setCurrentImageIndex(0) // Reset hover state when past section 6
+      }
+      
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -360,7 +364,7 @@ export default function Home() {
         >
           {/* Subtle Floating Parallax Background Images */}
           <motion.div 
-            className={`fixed inset-0 z-[-1] overflow-hidden ${currentSection >= 6  ? 'opacity-100' : 'opacity-0'}`}
+            className={`fixed inset-0 z-[-1] overflow-hidden transition-all duration-300 ${currentSection >= 6  ? 'opacity-100' : 'opacity-0'}`}
             style={{
               rotateX,
               rotateY,
@@ -394,7 +398,7 @@ export default function Home() {
           {/* Subtle Floating Left Arrow with Parallax */}
           <motion.button
             onClick={prevImage}
-            className="absolute left-8 z-20 p-4 bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/50 transition-all duration-300 group"
+            className="absolute left-8 z-20 p-4  rounded-full transition-all duration-300 group"
             aria-label="Previous image"
             style={{
               x: useTransform(springX, [-0.5, 0.5], [-2, 2]), // Much more subtle
@@ -420,7 +424,7 @@ export default function Home() {
           {/* Subtle Floating Right Arrow with Parallax */}
           <motion.button
             onClick={nextImage}
-            className="absolute right-8 z-20 p-4 bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/50 transition-all duration-300 group"
+            className="absolute right-8 z-20 p-4 rounded-full  transition-all duration-300 group"
             aria-label="Next image"
             style={{
               x: useTransform(springX, [-0.5, 0.5], [2, -2]), // Subtle reverse
