@@ -11,6 +11,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 100;
+  }
+  
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 100;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 100;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -39,14 +56,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-/* For the title using Kapakana font */
-.title {
-    font-family: 'Kapakana', sans-serif;
-}
-
-/* For the subtitle using Philosopher font */
-.subtitle {
-    font-family: 'Philosopher', serif;
 }

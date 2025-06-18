@@ -294,31 +294,19 @@ export default function Home() {
         </div>
 
         {/* Section 1 */}
-        <section className="absolute top-0 left-0 w-full h-screen flex items-center justify-center text-white">
-          <div className="text-center px-8 pt-64">
+        <section className="absolute top-0 left-0 w-full h-screen flex items-end justify-center text-white">
+          <div className="text-center px-8 ">
             <motion.div
               {...fadeInUp}
               className="mb-16"
             >
               <h1 
-                className="text-6xl md:text-8xl font-thin italic mb-4 title"
-                style={{
-                  textShadow: `
-                    0 0 5px #fff,
-                    0 0 10px #fff,
-                    0 0 20px #fff,
-                    0 0 40px #00f3ff,
-                    0 0 80px #00f3ff,
-                    0 0 90px #00f3ff,
-                    0 0 100px #00f3ff,
-                    0 0 150px #00f3ff
-                  `,
-                  color: '#ffffff'
-                }}
+                className="text-3xl md:text-5xl font-thin mb-4 uppercase"
+                
               >
-                The Journey
+                Journey by embrant
               </h1>
-              <h2 className="text-5xl md:text-4xl font-light subtitle">
+              <h2 className="text-base md:text-xl  font-thin">
                 Where Earth's Masterpieces Find Their Destiny
               </h2>
             </motion.div>
@@ -332,7 +320,7 @@ export default function Home() {
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="w-px h-20 bg-white/50"
+                className="w-px h-10 bg-white/50"
               />
             </motion.div>
           </div>
@@ -340,7 +328,7 @@ export default function Home() {
 
       {/* Section 2 */}
             <section className="absolute top-[100vh] left-0 w-full h-[200vh] flex items-start justify-start text-white px-16">
-            <div className="max-w-2xl sticky top-0 py-36">
+            <div className="max-w-2xl sticky top-0 py-36 pt-48">
               <motion.div
               {...fadeInUp}
               transition={{ ...fadeInUp.transition, delay: 0.2 }}
@@ -361,7 +349,7 @@ export default function Home() {
 
            { /* Section 4 */}
               <section className="absolute top-[300vh] left-0 w-full h-[400vh] flex items-start justify-start text-white px-16">
-                <div className="max-w-2xl sticky top-0 pt-36 pb-56">
+                <div className="max-w-2xl sticky top-0 pt-48 pb-56">
                   <motion.div
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.6 }}
@@ -385,7 +373,7 @@ export default function Home() {
         >
           {/* Subtle Floating Parallax Background Images */}
           <motion.div 
-            className={`fixed inset-0 z-[-1] overflow-hidden transition-all duration-300 `}
+            className={`absolute inset-0 z-[-1] overflow-hidden transition-all duration-300 `}
             style={{
               rotateX,
               rotateY,
@@ -434,7 +422,6 @@ export default function Home() {
                 <h3 className="text-4xl md:text-5xl font-light text-white subtitle tracking-wider">
                   {carouselData[currentImageIndex].name}
                 </h3>
-                <div className="w-16 h-px bg-white/60 mx-auto mt-4"></div>
               </motion.div>
             </AnimatePresence>
           </div>

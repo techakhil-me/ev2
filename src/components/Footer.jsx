@@ -2,51 +2,59 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Footer = () => {
   const [soundOn, setSoundOn] = useState(true);
   const [audioInitialized, setAudioInitialized] = useState(false);
+  const [isLastSection, setIsLastSection] = useState(false);
   const audioRef = useRef(null);
-  const narrationRef = useRef(null);
 
   const toggleSound = () => {
     const newSoundState = !soundOn;
     setSoundOn(newSoundState);
 
-    if (audioRef.current && narrationRef.current) {
+    if (audioRef.current) {
       if (newSoundState) {
         audioRef.current.play().catch((error) => {
           console.log("Background music play failed:", error);
         });
-        narrationRef.current.play().catch((error) => {
-          console.log("Narration play failed:", error);
-        });
       } else {
         audioRef.current.pause();
-        narrationRef.current.pause();
       }
     }
   };
 
   const initializeAudio = () => {
-    if (audioRef.current && narrationRef.current && !audioInitialized && soundOn) {
-      // Set volumes
+    if (audioRef.current && !audioInitialized && soundOn) {
+      // Set volume
       audioRef.current.volume = 0.3; // Background music at 30%
-      narrationRef.current.volume = 0.7; // Narration at 70% for clarity
       
-      // Play both audio tracks
+      // Play audio track
       audioRef.current.play().catch((error) => {
         console.log("Background music play failed:", error);
         setSoundOn(false);
       });
       
-      narrationRef.current.play().catch((error) => {
-        console.log("Narration play failed:", error);
-      });
-      
       setAudioInitialized(true);
     }
   };
+
+  // Monitor scroll position to detect last section
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Check if we're near the bottom of the page (within 100px)
+      const isNearBottom = scrollTop + windowHeight >= documentHeight - 100;
+      setIsLastSection(isNearBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Add click listener to start audio on first user interaction
@@ -68,14 +76,7 @@ const Footer = () => {
     <>
       {/* Background Music Audio element */}
       <audio ref={audioRef} loop preload="auto" className="hidden">
-        <source src="/ambient-pads.mp3" type="audio/mpeg" />
-        <source src="/ambient-pads.wav" type="audio/wav" />
-        Your browser does not support the audio element.
-      </audio>
-
-      {/* Narration Audio element */}
-      <audio ref={narrationRef} loop preload="auto" className="hidden">
-        <source src="/narration.mp3" type="audio/mpeg" />
+        <source src="/music.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
@@ -113,29 +114,66 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <button className="text-sm text-white/80 hover:text-white transition-colors">
-              <div className="overflow-hidden relative px-4 py-2">
-                <div className="flex items-center space-x-1">
-                  <span>scroll to explore</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="inline-block ml-1"
+            {isLastSection ? (
+              <Link 
+                href="/collection"
+                className="text-sm text-white/80 hover:text-white transition-colors cursor-pointer"
+              >
+                <div className="overflow-hidden relative px-4 py-2">
+                  <motion.div 
+                    className="flex items-center space-x-1"
+                    animate={{ y: [0, -2, 0] }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                    <span>Back to main page</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="inline-block ml-1 transition-transform duration-300"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </motion.div>
+                </div>
+              </Link>
+            ) : (
+              <div className="text-sm text-white/80 cursor-default">
+                <div className="overflow-hidden relative px-4 py-2">
+                  <div className="flex items-center space-x-1">
+                    <span>scroll to explore</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="inline-block ml-1"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </button>
+            )}
           </div>
         </div>
       </motion.footer>

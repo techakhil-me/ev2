@@ -1,9 +1,6 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "../components/LenisProvider";
 import Navbar from "../components/Navbar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "PNG Sequence Animation Demo",
@@ -13,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased" style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight: 100 }}>
         <LenisProvider>
           <Navbar />
           {children}

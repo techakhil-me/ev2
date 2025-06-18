@@ -67,7 +67,7 @@ const Navbar = () => {
             </div>
 
             {/* Book Appointment Button */}
-            <button className="px-6 hidden md:visible py-2 border subtitle border-black text-black text-sm font-light rounded-full hover:bg-black/10 transition-all duration-300">
+            <button className="px-6 hidden md:block py-2 border subtitle border-black text-black text-sm font-light rounded-full hover:bg-black/10 transition-all duration-300">
               Book An Appointment
             </button>
           </div>
