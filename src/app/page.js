@@ -278,6 +278,7 @@ export default function Home() {
             autoPlay 
             loop 
             muted 
+            controls={false}
             className={`w-full h-full object-cover transition-opacity duration-700 ${currentSection >= 0 && currentSection < 2 ? 'opacity-100' : 'opacity-0'}`}
           >
             <source src="/herobg.mp4" type="video/mp4" />
@@ -301,12 +302,12 @@ export default function Home() {
               className="mb-16"
             >
               <h1 
-                className="text-3xl md:text-5xl font-thin mb-4 uppercase"
+                className="text-3xl md:text-6xl  mb-4 title font-medium tracking-widest"
                 
               >
-                Journey by embrant
+                Journey By Embrant
               </h1>
-              <h2 className="text-base md:text-xl  font-thin">
+              <h2 className="text-3xl md:text-5xl  subtitle">
                 Where Earth's Masterpieces Find Their Destiny
               </h2>
             </motion.div>
@@ -334,11 +335,11 @@ export default function Home() {
               transition={{ ...fadeInUp.transition, delay: 0.2 }}
               className="space-y-6"
               >
-              <h2 className="text-5xl md:text-5xl font-light mb-8 subtitle">
+              <h2 className="text-3xl md:text-5xl  mb-8 subtitle">
             Every Gem<br />
             Tells A Story.
               </h2>
-              <div className="space-y-4 text-base font-bold max-w-sm text-white/90 leading-relaxed tracking-widest  subtitle">
+              <div className="space-y-4 font-bold text-base  max-w-sm text-white/90 leading-relaxed tracking-widest subtitle">
             <p>
              In The Depths Of Earth's Most Sacred Grounds, Where Earth Crafted Its Finest Treasures Over Millions Of Years, We Begin Our Journey Of Excellence.</p>
               </div>
@@ -354,7 +355,7 @@ export default function Home() {
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.6 }}
                   >
-                    <h2 className="text-5xl font-light mb-8 subtitle">
+                    <h2 className="text-3xl md:text-5xl  mb-8 subtitle">
             One Gem. <br />
             Infinite Hues.              </h2>
                     <div className="space-y-4 text-base font-bold tracking-widest max-w-sm text-white/90 leading-relaxed subtitle">

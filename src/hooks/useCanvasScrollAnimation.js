@@ -11,7 +11,7 @@ export const useCanvasScrollAnimation = (
   originalHeight = 770
 ) => {
   const [currentFrame, setCurrentFrame] = useState(1);
-  const [imagesLoaded, setImagesLoaded] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const [canvasDimensions, setCanvasDimensions] = useState({ width: originalWidth, height: originalHeight });
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
@@ -78,9 +78,18 @@ export const useCanvasScrollAnimation = (
   // Preload all images
   useEffect(() => {
     const preloadImages = () => {
+      // Load first frame immediately
+      const firstFrameImg = new Image();
+      firstFrameImg.onload = () => {
+        imagesRef.current[1] = firstFrameImg;
+        setImagesLoaded(true);
+      };
+      firstFrameImg.src = `${srcPrefix}1.png`;
+      
+      // Load remaining frames
       const imagePromises = [];
       
-      for (let i = 1; i <= totalFrames; i++) {
+      for (let i = 2; i <= totalFrames; i++) {
         const imageSrc = `${srcPrefix}${i}.png`;
         
         const imagePromise = new Promise((resolve, reject) => {
@@ -97,12 +106,8 @@ export const useCanvasScrollAnimation = (
       }
       
       Promise.all(imagePromises)
-        .then(() => {
-          setImagesLoaded(true);
-        })
         .catch((error) => {
           console.error('Error preloading images:', error);
-          setImagesLoaded(true);
         });
     };
 

@@ -1,32 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap');
-@font-face {
-  font-family: 'Kapakana';
-  src: url('/fonts/Kapakana.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+/* kapakana */
+@import url('https://fonts.googleapis.com/css2?family=Kapakana:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 100;
-  }
-  
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 100;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 100;
-  }
-}
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -40,6 +20,17 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+}
+
+/* title subtitle */
+.title {
+  font-family: 'Kapakana', sans-serif;
+
+}
+
+.subtitle {
+  font-family: 'philosopher', sans-serif;
+
 }
 
 body {
