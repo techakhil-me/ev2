@@ -115,8 +115,10 @@ const Footer = () => {
 
           <div className="flex items-center space-x-4">
             {isLastSection ? (
-              <Link 
-                href="/collection"
+              <a 
+                href="https://embrant.com/embrant"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-white/80 hover:text-white transition-colors cursor-pointer"
               >
                 <div className="overflow-hidden relative px-4 py-2">
@@ -148,7 +150,7 @@ const Footer = () => {
                     </svg>
                   </motion.div>
                 </div>
-              </Link>
+              </a>
             ) : (
               <div className="text-sm text-white/80 cursor-default">
                 <div className="overflow-hidden relative px-4 py-2">
